@@ -1,0 +1,30 @@
+<!-- p id="notice"><%= notice %></p -->
+
+<p>
+  <b>Title:</b>
+  <%= @question.title %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%= @question.content %>
+</p>
+
+<% if @question.answers.size > 0 %>
+  <h2>Answers</h2>
+  <% for answer in @question.answers %>
+    <p><%= answer.content %></p>
+  <% end %>
+<% end %>
+
+<% if @question.user != current_user %>
+  <h2>New Answer</h2>
+
+  <%= form_for [@question, Answer.new] do |f| %>
+    <p><%= f.text_area :content, :rows => 10 %></p>
+    <p><%= f.submit %></p>
+  <% end %>
+<% end %>
+
+<%= link_to 'Edit', edit_question_path(@question) %> |
+<%= link_to 'Back', questions_path %>
