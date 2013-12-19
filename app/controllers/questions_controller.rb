@@ -48,10 +48,12 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to @question, notice: 'Question was successfully created.' }
+        #format.html { redirect_to @question, notice: 'Question was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Question was successfully created.' }
         format.json { render json: @question, status: :created, location: @question }
       else
-        format.html { render action: "new" }
+        #format.html { render action: "new" }
+        format.html { redirect_to root_path, notice: 'Question was not created...' }
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end
     end
