@@ -18,8 +18,8 @@
   </div>
 </div>
 
-<% if user_signed_in? %>
-  <div style="width:auto;height:40px;background-color:#ADADFF;padding:10px 0 0 1280px" >
+<div style="width:auto;height:40px;background-color:#ADADFF;padding:10px 0 0 1280px" >
+  <% if user_signed_in? %>
     <div class="dropdown" style="position:absolute; right:20px">
       <li class="nav nav-pills" >
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000;bottom:20px">
@@ -34,8 +34,8 @@
         </ul>
       </li>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
 
 <!-- p class="notice"><%= notice %></p -->
 <!-- p class="alert"><%= alert %></p -->
