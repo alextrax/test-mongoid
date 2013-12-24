@@ -8,6 +8,7 @@ class AnswersController < ApplicationController
     end
 
     answer = @question.answers.create!(params[:answer])
+    @question.user.answer_notifications.create!(:question_url => question_url(@question))
 
     redirect_to @question, :notice => "Answer created!" 
   end

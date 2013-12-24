@@ -48,6 +48,9 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
+        receiver = User.ne(_id: current_user).to_a.first
+        receiver.question_notifications.create!(:question_url => question_url(@question))
+
         #format.html { redirect_to @question, notice: 'Question was successfully created.' }
         format.html { redirect_to root_path, notice: 'Question was successfully created.' }
         format.json { render json: @question, status: :created, location: @question }

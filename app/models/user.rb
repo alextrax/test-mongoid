@@ -38,4 +38,6 @@ class User
   # field :locked_at,       :type => Time
 
   has_many :questions
+  embeds_many :question_notifications, class_name: "Notification"
+  embeds_many :answer_notifications, class_name: "Notification"
 end
