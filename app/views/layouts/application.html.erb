@@ -23,14 +23,10 @@
     <div class="dropdown" style="position:absolute; right:20px">
       <li class="nav nav-pills" >
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000;bottom:20px">
-          <%= current_user.email %><img src="assets/123.jpg"/>
+          <img src="assets/123.jpg"/>
         </a>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">AssHole</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Pussy</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Dammn it</a></li>
-          <li role="presentation"s class="divider">Son of Bitch</li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Go Fuck yourself</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href=<%= destroy_user_session_path %> data-method="delete">Sign out(<%= current_user.email %>)</a></li>
         </ul>
       </li>
     </div>
