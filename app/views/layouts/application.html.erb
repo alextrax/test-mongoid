@@ -12,7 +12,7 @@
 
 <div id="top" style="width:auto;height:auto;background-color:000000;">
   <div id="toplogo">
-    <a href="http://www.facebook.com">
+    <a href=<%= root_url %>>
       <img src="https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-prn2/1471905_10201944735612310_613489915_n.jpg" alt="W3Schools.com" width="280" height="32" style="border:0;">
     </a>
   </div>
@@ -20,6 +20,30 @@
 
 <div style="width:auto;height:40px;background-color:#ADADFF;padding:10px 0 0 1280px" >
   <% if user_signed_in? %>
+    <div class="dropdown" style="position:absolute; right:140px">
+      <li class="nav nav-pills" >
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000;bottom:20px">
+          Questions(<%= current_user.question_notifications.count %>)
+        </a>
+        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+          <% current_user.question_notifications.each do |notification| %>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href=<%= notification_url notification, :type => :q %> data-method="delete">Some one asked...</a></li>
+          <% end %>
+        </ul>
+      </li>
+    </div>
+    <div class="dropdown" style="position:absolute; right:60px">
+      <li class="nav nav-pills" >
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000;bottom:20px">
+          Answers(<%= current_user.answer_notifications.count %>)
+        </a>
+        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+          <% current_user.answer_notifications.each do |notification| %>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href=<%= notification_url notification, :type => :a %> data-method="delete">Some one answered...</a></li>
+          <% end %>
+        </ul>
+      </li>
+    </div>
     <div class="dropdown" style="position:absolute; right:20px">
       <li class="nav nav-pills" >
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000;bottom:20px">
