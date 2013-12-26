@@ -1,5 +1,5 @@
 
-<%= form_for Question.new, :html => {:class => "form-inline box", :style => "width:auto;height:400px;"} do |f| %>
+<%= form_for Question.new, :remote => true, :html => {:class => "form-inline box", :style => "width:auto;height:400px;"} do |f| %>
   <div align="center" id="cell">
     <%= f.text_area :content, :rows => 3, :cols => 50 %>
     <%= f.button "Go fucking Ask!!!", :class => "btn btn-primary"%>

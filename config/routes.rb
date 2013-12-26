@@ -8,6 +8,7 @@ TestMongoid::Application.routes.draw do
   end
 
   resources :notifications
+  resources :channels
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

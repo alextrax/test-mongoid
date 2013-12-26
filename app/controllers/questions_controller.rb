@@ -1,3 +1,5 @@
+require 'net/http'
+
 class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.json
@@ -49,11 +51,21 @@ class QuestionsController < ApplicationController
     respond_to do |format|
       if @question.save
         receiver = User.ne(_id: current_user).to_a.first
-        receiver.question_notifications.create!(:question_url => question_url(@question))
+        notification = receiver.question_notifications.create!(:question_url => question_url(@question))
+
+        notification_data = {:url => notification_url(notification, :type => :q), :type => :q}
+        message = {:channel => '/notifications/users/' + receiver._id, :data => notification_data.to_json.html_safe}
+        faye_uri = URI.parse("http://localhost:9292/faye")
+        Net::HTTP.post_form(faye_uri, :message => message.to_json)
+
+        notification_data = {:channel => "/notifications/questions/" + @question._id, :type => :s}
+        message = {:channel => '/notifications/users/' + current_user._id, :data => notification_data.to_json.html_safe}
+        Net::HTTP.post_form(faye_uri, :message => message.to_json)
 
         #format.html { redirect_to @question, notice: 'Question was successfully created.' }
         format.html { redirect_to root_path, notice: 'Question was successfully created.' }
         format.json { render json: @question, status: :created, location: @question }
+        format.js
       else
         #format.html { render action: "new" }
         format.html { redirect_to root_path, notice: 'Question was not created...' }

@@ -38,3 +38,5 @@ gem 'jquery-rails'
 
 gem "mongoid", "~> 3.0.0"
 gem 'devise'
+gem "faye"
+gem "thin"

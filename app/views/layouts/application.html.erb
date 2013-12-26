@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag :defaults, "http://localhost:9292/faye.js" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -20,13 +21,14 @@
 
 <div style="width:auto;height:40px;background-color:#ADADFF;padding:10px 0 0 1280px" >
   <% if user_signed_in? %>
+    <%= hidden_field_tag :user_id, current_user._id, :id => "user_id" %>
     <div class="dropdown" style="position:absolute; right:140px">
       <li class="nav nav-pills" >
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000;bottom:20px">
+        <a id="question_notifications_counter" class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000;bottom:20px">
           Questions(<%= current_user.question_notifications.count %>)
         </a>
-        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
-          <% current_user.question_notifications.each do |notification| %>
+        <ul id="question_notifications_list" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+          <% current_user.question_notifications.reverse_each do |notification| %>
             <li role="presentation"><a role="menuitem" tabindex="-1" href=<%= notification_url notification, :type => :q %> data-method="delete">Some one asked...</a></li>
           <% end %>
         </ul>
@@ -34,11 +36,11 @@
     </div>
     <div class="dropdown" style="position:absolute; right:60px">
       <li class="nav nav-pills" >
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000;bottom:20px">
+        <a id="answer_notifications_counter" class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000;bottom:20px">
           Answers(<%= current_user.answer_notifications.count %>)
         </a>
-        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
-          <% current_user.answer_notifications.each do |notification| %>
+        <ul id="answer_notifications_list" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+          <% current_user.answer_notifications.reverse_each do |notification| %>
             <li role="presentation"><a role="menuitem" tabindex="-1" href=<%= notification_url notification, :type => :a %> data-method="delete">Some one answered...</a></li>
           <% end %>
         </ul>
