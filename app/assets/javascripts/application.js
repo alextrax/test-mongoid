@@ -24,7 +24,7 @@ function handle_notification(notification) {
     $("#question_notifications_counter").text('Questions(' + count + ')');
   }
   else if (notification.type == "a") {
-    $("#answer_notifications_list").prepend('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one asked...</a></li>')
+    $("#answer_notifications_list").prepend('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one answered...</a></li>')
     var count = parseInt($("#answer_notifications_counter")[0].text.match(/\d+/g)[0]) + 1;
     $("#answer_notifications_counter").text('Answers(' + count + ')');
   }
