@@ -1,11 +1,28 @@
+<%= form_for Question.new, :remote => true do |f| %>
+  <div class="container" style="padding:120px 0 60 0px">
+    <div class="row">
+      <div class="col col-md-4"></div>
+      <div class="col col-md-4">
+        <img src=<%= asset_path "logo-n4-3.png" %> class="img-responsive" alt="Responsive image">
+      </div>
+      <div class="col col-md-4"></div>
+    </div>
+    <div id="text" class="row">
+      <div class="col col-md-3"></div>
+      <div class="col col-md-6">
+        <%= f.text_area :content, :cols => "", :rows => "", :class => "normal", :placeholder => "Please type your question...", :style => "width:100%"%>
+      </div>
+      <div class="col col-md-3"></div>
+    </div>
+  </div>
+  <div class="row" style="padding:10px 0 0 0px">
+    <div class="col col-md-4"></div>
+    <div class="col col-md-4">
+      <div class="text-center">
+        <%= f.button "Ask",:id => "ask_button", :class => "btn btn-lg btn-primary"%>
+      </div>
+    </div>
+    <div class="col col-md-4"></div>               
+  </div>
 
-<%= form_for Question.new, :remote => true, :html => {:class => "form-inline box", :style => "width:auto;height:400px;"} do |f| %>
-  <div align="center" id="cell">
-    <%= f.text_area :content, :rows => 3, :cols => 50 %>
-    <%= f.button "Go fucking Ask!!!", :class => "btn btn-primary"%>
-  </div>
-  <div align="center" id="cell">
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-  </div>
 <% end %>

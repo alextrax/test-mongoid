@@ -51,9 +51,9 @@ class QuestionsController < ApplicationController
     respond_to do |format|
       if @question.save
         receiver = User.ne(_id: current_user).to_a.first
-        notification = receiver.question_notifications.create!(:question_url => question_url(@question))
+        notification = receiver.question_notifications.create!(:question_url => question_path(@question))
 
-        notification_data = {:url => notification_url(notification, :type => :q), :type => :q}
+        notification_data = {:url => notification_path(notification, :type => :q), :type => :q}
         message = {:channel => '/notifications/users/' + receiver._id, :data => notification_data.to_json.html_safe}
         faye_uri = URI.parse("http://localhost:9292/faye")
         Net::HTTP.post_form(faye_uri, :message => message.to_json)

@@ -13,20 +13,21 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require notify
 //= require_tree .
 
 var faye;
 
 function handle_notification(notification) {
   if (notification.type == "q") {
-    $("#question_notifications_list").prepend('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one asked...</a></li>')
-    var count = parseInt($("#question_notifications_counter")[0].text.match(/\d+/g)[0]) + 1;
-    $("#question_notifications_counter").text('Questions(' + count + ')');
+    $("#question_notifications_list li.dropdown-header").after('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one asked...</a></li>')
+    var count = (parseInt($("#question_notifications_counter").text()) || 0) + 1;
+    $("#question_notifications_counter").text(count);
   }
   else if (notification.type == "a") {
-    $("#answer_notifications_list").prepend('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one answered...</a></li>')
-    var count = parseInt($("#answer_notifications_counter")[0].text.match(/\d+/g)[0]) + 1;
-    $("#answer_notifications_counter").text('Answers(' + count + ')');
+    $("#answer_notifications_list li.dropdown-header").after('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one answered...</a></li>')
+    var count = (parseInt($("#answer_notifications_counter").text()) || 0) + 1;
+    $("#answer_notifications_counter").text(count);
   }
   else if (notification.type == "s") {
       faye.subscribe(notification.channel, function (data) {

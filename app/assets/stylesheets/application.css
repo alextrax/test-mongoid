@@ -22,3 +22,38 @@
        url('../assets/glyphicons-halflings-regular.ttf') format('truetype'), 
        url('../assets/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
+
+textarea {
+  border:2px solid #ccc;
+  padding: 10px;
+  vertical-align: top;
+  width: 25%;
+}
+
+.animated {
+  -webkit-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  transition: height 0.2s;
+}
+
+.container-fluid, .sidebar, .body {
+  height: 100%;
+  min-height: 100%;
+}
+
+.navbar {
+  height: 40px;
+  min-height: 40px;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-nav>li>a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.badge{
+  background-color: #CE0000
+}
