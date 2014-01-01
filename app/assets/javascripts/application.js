@@ -14,20 +14,27 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require notify
+//= require jquery.autosize
 //= require_tree .
 
 var faye;
 
+function increase_counter(id) {
+  var count = (parseInt($("#" + id).text()) || 0) + 1;
+  $("#" + id).text(count);
+}
+
 function handle_notification(notification) {
-  if (notification.type == "q") {
-    $("#question_notifications_list li.dropdown-header").after('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one asked...</a></li>')
-    var count = (parseInt($("#question_notifications_counter").text()) || 0) + 1;
-    $("#question_notifications_counter").text(count);
+
+  if (notification.type == "q")
+  {
+    $("#question_notifications_list li.dropdown-header").after('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one asked...</a></li>');
+    increase_counter("question_notifications_counter");
   }
-  else if (notification.type == "a") {
-    $("#answer_notifications_list li.dropdown-header").after('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one answered...</a></li>')
-    var count = (parseInt($("#answer_notifications_counter").text()) || 0) + 1;
-    $("#answer_notifications_counter").text(count);
+  else if(notification.type == "a")
+  {
+    $("#answer_notifications_list li.dropdown-header").after('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one answered...</a></li>');
+    increase_counter("answer_notifications_counter");
   }
   else if (notification.type == "s") {
       faye.subscribe(notification.channel, function (data) {
@@ -66,7 +73,16 @@ function get_channels() {
   });
 }
 
+function init_notifications() {
+  for (var index in window.notification_objects)
+  {
+    handle_notification(window.notification_objects[index])
+  }
+}
+
 $(function() {
+  $('textarea.autoresize').autosize();
+
   faye = new Faye.Client('http://localhost:9292/faye');
   /*
   var user_id = $('#user_id')[0].value;
@@ -75,4 +91,5 @@ $(function() {
   });
   */
   get_channels();
+  init_notifications();
 });
