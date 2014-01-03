@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag asset_path "questions_show.js" %>
+<% end %>
+
 <div class="container" style="padding:80px 0 60 0px">
   <div class="row">
     <div class="col col-md-5"></div>
@@ -17,8 +21,8 @@
           </p>
         </div>
         <!-- List group -->
-        <ul class="list-group">
-          <% if @question.answers.size > 0 %>
+        <ul id="answer_list" class="list-group">
+          <% if @is_asker_or_follower && @question.answers.size > 0 %>
             <% for answer in @question.answers %>
               <li class="list-group-item">
                 <ul>
@@ -33,14 +37,18 @@
     <div class="col col-md-3"></div>
   </div>
 
-  <% if @question.user != current_user %>
-    <%= form_for [@question, Answer.new] do |f| %>
+  <% if !@is_asker_or_follower %>
+    <%#= form_for [@question, Answer.new] do |f| %>
 
       <div id="text" class="row">
         <div class="col col-md-3"></div>
         <div class="col col-md-6">
-          <!-- textarea class='normal' placeholder="Please type your answer..." style="width:100%"></textarea -->
-          <%= f.text_area :content, :cols => "", :rows => "", :class => "autoresize", :placeholder => "Please type your question...", :style => "width:100%"%>
+          <%= form_for [@question, Answer.new] do |f| %>
+            <!--textarea id="new_answer_content", class="autoresize" placeholder="Please type your answer..." style="width:100%"></textarea-->
+            <%= f.text_area :content, :cols => "", :rows => "", :class => "autoresize", :placeholder => "Please type your question...", :style => "width:100%"%>
+          <% end %>
+          <%= form_tag question_followers_path(@question), :id => "new_follower" do |f| %>
+          <% end %>
         </div>
         <div class="col col-md-3"></div>
       </div>
@@ -49,14 +57,14 @@
         <div class="col col-md-6">
           <div class="text-center">
             <div class="btn-group btn-group-lg">
-              <a href="#" class="btn ">Ignore</a>
-              <%= f.button "Answer",:id => "answer_button", :class => "btn btn-lg btn-primary"%>
-              <a href="#" class="btn ">follow</a>
+              <a href="/" class="btn ">Ignore</a>
+              <a id="answer_button" href="#" class="btn btn-lg btn-primary">Answer</a>
+              <a id="follow_button" href="#" class="btn ">follow</a>
             </div>
           </div>
         </div>
         <div class="col col-md-3"></div>
       </div>
-    <% end %>
+    <%# end %>
   <% end %>
 </div>

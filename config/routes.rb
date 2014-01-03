@@ -5,6 +5,7 @@ TestMongoid::Application.routes.draw do
 
   resources :questions do
     resources :answers
+    resources :followers
   end
 
   resources :notifications

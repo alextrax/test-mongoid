@@ -7,9 +7,13 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag :defaults, "http://localhost:9292/faye.js" %>
+  <%= yield :head %>
   <%= csrf_meta_tags %>
-  <%= javascript_tag do %>
-    window.notification_objects = <%= notification_objects_json %>
+  <% if user_signed_in? %>
+    <%= javascript_tag do %>
+      window.channels = <%= channels_json %>
+      window.notification_objects = <%= notification_objects_json %>
+    <% end %>
   <% end %>
   <link rel="shortcut icon" href=<%= asset_path "logo-n4-justQ_icon_blue.png" %>>
 </head>
@@ -23,47 +27,49 @@
         <img src=<%= asset_path "logo-n4-justQ_icon_blue.png" %> width="40">
       </a>      
 
-      <ul class="nav nav-pills navbar-nav pull-right">
-        <li href="#" class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="glyphicon glyphicon-question-sign"></span>
-            <span id="question_notifications_counter" class="badge"></span>
-          </a>
-          <ul id="question_notifications_list" class="dropdown-menu " role="menu" aria-labelledby="dLabel">
-            <li role="presentation" class="dropdown-header">Question Asked</li>
-            <li role="presentation" class="divider"></li>
-            <li role="presentation">
-              <a role="menuitem" tabindex="-1" href="#">See All</a>
-            </li>
-          </ul>
-        </li>
+      <% if user_signed_in? %>
+        <ul class="nav nav-pills navbar-nav pull-right">
+          <li href="#" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <span class="glyphicon glyphicon-question-sign"></span>
+              <span id="question_notifications_counter" class="badge"></span>
+            </a>
+            <ul id="question_notifications_list" class="dropdown-menu " role="menu" aria-labelledby="dLabel">
+              <li role="presentation" class="dropdown-header">Question Asked</li>
+              <li role="presentation" class="divider"></li>
+              <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="#">See All</a>
+              </li>
+            </ul>
+          </li>
 
-        <li href="#" class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="glyphicon glyphicon-info-sign"></span>
-            <span id="answer_notifications_counter" class="badge"></span>
-          </a>
-          <ul id="answer_notifications_list" class="dropdown-menu " role="menu" aria-labelledby="dLabel">
-            <li role="presentation" class="dropdown-header">Anwser Recieved</li>
-            <li role="presentation" class="divider"></li>
-            <li role="presentation">
-              <a role="menuitem" tabindex="-1" href="#">See All</a>
-            </li>
-          </ul>
-        </li>
+          <li href="#" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <span class="glyphicon glyphicon-info-sign"></span>
+              <span id="answer_notifications_counter" class="badge"></span>
+            </a>
+            <ul id="answer_notifications_list" class="dropdown-menu " role="menu" aria-labelledby="dLabel">
+              <li role="presentation" class="dropdown-header">Anwser Recieved</li>
+              <li role="presentation" class="divider"></li>
+              <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="#">See All</a>
+              </li>
+            </ul>
+          </li>
 
-        <li>
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="glyphicon glyphicon-user"></span>
-          </a>
-          <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
-            <li role="presentation">
-              <a role="menuitem" tabindex="-1" href=<%= destroy_user_session_path %> data-method="delete">Sign out(<%= current_user.email %>)</a>
-            </li>
-          </ul>
-        </li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <span class="glyphicon glyphicon-user"></span>
+            </a>
+            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+              <li role="presentation">
+                <a role="menuitem" tabindex="-1" href=<%= destroy_user_session_path %> data-method="delete">Sign out(<%= current_user.email %>)</a>
+              </li>
+            </ul>
+          </li>
 
-      </ul>
+        </ul>
+      <% end %>
 
     </div>
   </div> 

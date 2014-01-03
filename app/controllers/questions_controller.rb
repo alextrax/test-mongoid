@@ -19,6 +19,11 @@ class QuestionsController < ApplicationController
   def show
     @question = Question.find(params[:id])
 
+    @is_asker_or_follower = false;
+    if @question.user == current_user || @question.followers.find(current_user)
+      @is_asker_or_follower = true;
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @question }
@@ -50,17 +55,21 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        receiver = User.ne(_id: current_user).to_a.first
-        notification = receiver.question_notifications.create!(:question_url => question_path(@question))
+        #receiver = User.ne(_id: current_user).to_a.first
+        receivers = User.ne(_id: current_user).to_a
+        #notification = receiver.question_notifications.create!(:question_url => question_path(@question))
+        #notification_data = {:url => notification_path(notification, :type => :q), :type => :q}
+        #message = {:channel => '/notifications/users/' + receiver._id, :data => notification_data.to_json.html_safe}
 
-        notification_data = {:url => notification_path(notification, :type => :q), :type => :q}
-        message = {:channel => '/notifications/users/' + receiver._id, :data => notification_data.to_json.html_safe}
+        messages = []
+        receivers.each do |receiver|
+          notification = receiver.question_notifications.create!(:question_url => question_path(@question))
+          notification_data = {:url => notification_path(notification, :type => :q), :type => :q}
+          messages.push({:channel => '/notifications/users/' + receiver._id, :data => notification_data.to_json.html_safe})
+        end
+
         faye_uri = URI.parse("http://localhost:9292/faye")
-        Net::HTTP.post_form(faye_uri, :message => message.to_json)
-
-        notification_data = {:channel => "/notifications/questions/" + @question._id, :type => :s}
-        message = {:channel => '/notifications/users/' + current_user._id, :data => notification_data.to_json.html_safe}
-        Net::HTTP.post_form(faye_uri, :message => message.to_json)
+        Net::HTTP.post_form(faye_uri, :message => messages.to_json)
 
         #format.html { redirect_to @question, notice: 'Question was successfully created.' }
         format.html { redirect_to root_path, notice: 'Question was successfully created.' }

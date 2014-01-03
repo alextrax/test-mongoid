@@ -15,7 +15,6 @@
 //= require bootstrap
 //= require notify
 //= require jquery.autosize
-//= require_tree .
 
 var faye;
 
@@ -44,33 +43,12 @@ function handle_notification(notification) {
 }
 
 function subscribe_channels(channels) {
-  if (channels.user)
+  for (var index in channels)
   {
-    faye.subscribe(channels.user, function (data) {
+    faye.subscribe(channels[index], function (data) {
       handle_notification(JSON.parse(data)) 
     });
   }
-
-  if (channels.questions)
-  {
-    for (var index in channels.questions)
-    {
-      faye.subscribe(channels.questions[index], function (data) {
-        handle_notification(JSON.parse(data)) 
-      });
-    }
-  }
-}
-
-function get_channels() {
-  $.ajax({
-    url: "/channels",
-    type: "GET",
-    dataType: "json",
-    success: function(json_obj) {
-      subscribe_channels(json_obj);
-    }
-  });
 }
 
 function init_notifications() {
@@ -84,12 +62,7 @@ $(function() {
   $('textarea.autoresize').autosize();
 
   faye = new Faye.Client('http://localhost:9292/faye');
-  /*
-  var user_id = $('#user_id')[0].value;
-  faye.subscribe('/notifications/users/' + user_id, function (data) {
-    alert(data);
-  });
-  */
-  get_channels();
+  
+  subscribe_channels(window.channels);
   init_notifications();
 });

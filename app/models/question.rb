@@ -5,6 +5,6 @@ class Question
   field :closed, type: Boolean
   #has_many :answers
   embeds_many :answers
-  belongs_to :user
-  #has_and_belongs_to_many :answers , inverse_of: nil
+  belongs_to :user, inverse_of: :questions
+  has_and_belongs_to_many :followers, class_name: "User", inverse_of: :following_questions
 end
