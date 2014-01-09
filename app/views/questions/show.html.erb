@@ -2,7 +2,7 @@
   <%= javascript_include_tag asset_path "questions_show.js" %>
 <% end %>
 
-<div class="container" style="padding:80px 0 60 0px">
+<div class="container" style="padding:80px 0px 60px 0px">
   <div class="row">
     <div class="col col-md-5"></div>
     <div class="col col-md-2">
@@ -45,7 +45,7 @@
         <div class="col col-md-6">
           <%= form_for [@question, Answer.new] do |f| %>
             <!--textarea id="new_answer_content", class="autoresize" placeholder="Please type your answer..." style="width:100%"></textarea-->
-            <%= f.text_area :content, :cols => "", :rows => "", :class => "autoresize", :placeholder => "Please type your question...", :style => "width:100%"%>
+            <%= f.text_area :content, :cols => "", :rows => "", :class => "autoresize", :placeholder => "Please type your answer...", :style => "width:100%"%>
           <% end %>
           <%= form_tag question_followers_path(@question), :id => "new_follower" do |f| %>
           <% end %>

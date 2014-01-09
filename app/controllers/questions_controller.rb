@@ -49,6 +49,13 @@ class QuestionsController < ApplicationController
   # POST /questions
   # POST /questions.json
   def create
+    if params[:question][:content].gsub(/[ \t\r\n]/, '').length == 0
+      respond_to do |format|
+        format.json { render json: nil, status: :unprocessable_entity}
+      end
+      return
+    end
+
     #@question = Question.new(params[:question])
     @question = current_user.questions.new(params[:question])
     @question.closed = false
@@ -73,8 +80,7 @@ class QuestionsController < ApplicationController
 
         #format.html { redirect_to @question, notice: 'Question was successfully created.' }
         format.html { redirect_to root_path, notice: 'Question was successfully created.' }
-        format.json { render json: @question, status: :created, location: @question }
-        format.js
+        format.json { render json: nil, status: :created}
       else
         #format.html { render action: "new" }
         format.html { redirect_to root_path, notice: 'Question was not created...' }

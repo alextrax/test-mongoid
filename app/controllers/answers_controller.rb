@@ -7,6 +7,13 @@ class AnswersController < ApplicationController
     	return
     end
 
+    if params[:answer][:content].gsub(/[ \t\r\n]/, '').length == 0
+      respond_to do |format|
+        format.json { render json: nil, status: :unprocessable_entity}
+      end
+      return
+    end
+
     answer = @question.answers.create!(params[:answer])
     messages = []
     notification = @question.user.answer_notifications.create!(:question_url => question_path(@question))
@@ -24,6 +31,8 @@ class AnswersController < ApplicationController
     faye_uri = URI.parse("http://localhost:9292/faye")
     Net::HTTP.post_form(faye_uri, :message => messages.to_json)
 
-    redirect_to root_url
+    respond_to do |format|
+      format.json { render json: nil, status: :created}
+    end
   end
 end
