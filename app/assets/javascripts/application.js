@@ -59,6 +59,11 @@ function init_notifications() {
 }
 
 $(function() {
+  if ($('#alert_text').text().trim().length == 0)
+  {
+    $("#alert_text").hide();
+  }
+
   $('textarea.autoresize').autosize();
 
   faye = new Faye.Client('http://localhost:9292/faye');
