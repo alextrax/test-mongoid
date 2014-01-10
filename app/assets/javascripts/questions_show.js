@@ -11,15 +11,21 @@ $(function(){
       return;
     }
 
+    $(".btn").attr("disabled", "disabled");
+    $("#answer_content").attr("readonly", "readonly");
+
     var url = $("#new_answer").attr('action');
     $.post(url, $("#new_answer").serialize(), function(data) {
       $("#answer_list").append('<li class="list-group-item"><ul><li>' + content + '</li></ul></li>');
       $("#new_answer")[0].reset();
       $("#answer_button").notify("Answered",  "success"  );
+      setTimeout('self.location="/"', 1000)
     }, "json")
     .fail(function() {
       $("#new_answer")[0].reset();
       $("#answer_button").notify("Failed",  "error"  );
+      $(".btn").attr("disabled", false);
+      $("#answer_content").attr("readonly", false);
     });
   });
 
