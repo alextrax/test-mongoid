@@ -4,11 +4,11 @@ module ApplicationHelper
     notification_objects = []
 
     current_user.question_notifications.each do |notification|
-      notification_objects.push({:url => notification_path(notification, :type => :q), :type => :q})
+      notification_objects.push({:url => notification_path(notification, :type => :q), :type => :q, :question_description => notification.question_description})
     end
 
     current_user.answer_notifications.each do |notification|
-      notification_objects.push({:url => notification_path(notification, :type => :a), :type => :a})
+      notification_objects.push({:url => notification_path(notification, :type => :a), :type => :a, :question_description => notification.question_description})
     end
 
     return notification_objects.to_json.html_safe

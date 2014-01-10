@@ -27,12 +27,12 @@ function handle_notification(notification) {
 
   if (notification.type == "q")
   {
-    $("#question_notifications_list li.dropdown-header").after('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one asked...</a></li>');
+    $("#question_notifications_list li.dropdown-header").after('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">' + notification.question_description + '</a></li>');
     increase_counter("question_notifications_counter");
   }
   else if(notification.type == "a")
   {
-    $("#answer_notifications_list li.dropdown-header").after('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">Some one answered...</a></li>');
+    $("#answer_notifications_list li.dropdown-header").after('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + notification.url + '"data-method="delete">' + notification.question_description + '</a></li>');
     increase_counter("answer_notifications_counter");
   }
   else if (notification.type == "s") {

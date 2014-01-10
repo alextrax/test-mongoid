@@ -16,14 +16,15 @@ class AnswersController < ApplicationController
 
     answer = @question.answers.create!(params[:answer])
     messages = []
-    notification = @question.user.answer_notifications.create!(:question_url => question_path(@question))
-    notification_data = {:url => notification_path(notification, :type => :a), :type => :a}
+    question_description = @question.content[0..30].gsub(/\s\w+\s*$/,'...')
+    notification = @question.user.answer_notifications.create!(:question_url => question_path(@question), :question_description => question_description)
+    notification_data = {:url => notification_path(notification, :type => :a), :type => :a, :question_description => question_description}
     messages.push({:channel => '/notifications/users/' + @question.user._id, :data => notification_data.to_json.html_safe})
     #message = {:channel => '/notifications/users/' + @question.user._id, :data => notification_data.to_json.html_safe}
 
     @question.followers.each do |follower|
-      notification = follower.answer_notifications.create!(:question_url => question_path(@question))
-      notification_data = {:url => notification_path(notification, :type => :a), :type => :a}
+      notification = follower.answer_notifications.create!(:question_url => question_path(@question), :question_description => question_description)
+      notification_data = {:url => notification_path(notification, :type => :a), :type => :a, :question_description => question_description}
       messages.push({:channel => '/notifications/users/' + follower._id, :data => notification_data.to_json.html_safe})
     end
 
