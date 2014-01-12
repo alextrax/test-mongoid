@@ -18,9 +18,17 @@
 
 var faye;
 
+function change_title() {
+  var question_notifications_count = (parseInt($("#question_notifications_counter").text()) || 0);
+  var answer_notifications_count = (parseInt($("#answer_notifications_counter").text()) || 0);
+  var total_count = question_notifications_count + answer_notifications_count;
+  document.title = (total_count != 0 ? "(" + total_count + ")" : "") + "FastQ";
+}
+
 function increase_counter(id) {
   var count = (parseInt($("#" + id).text()) || 0) + 1;
   $("#" + id).text(count);
+  change_title();
 }
 
 function handle_notification(notification) {
@@ -66,7 +74,7 @@ $(function() {
 
   $('textarea.autoresize').autosize();
 
-  faye = new Faye.Client('http://localhost:9292/faye');
+  faye = new Faye.Client('http://192.168.1.4:9292/faye');
   
   subscribe_channels(window.channels);
   init_notifications();
