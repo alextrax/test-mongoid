@@ -54,6 +54,10 @@ textarea {
   padding-bottom: 10px;
 }
 
-.badge{
+.badge {
   background-color: #CE0000
+}
+
+.navbar-nav .open .dropdown-menu {
+  background-color: #FFFFFF
 }
