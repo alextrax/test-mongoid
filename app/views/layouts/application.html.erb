@@ -6,13 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag :defaults, "http://localhost:9292/faye.js" %>
+  <%= javascript_include_tag :defaults, "http://" + TestMongoid::Application.config.faye_server_domain_name + ":" + TestMongoid::Application.config.faye_server_port.to_s + "/faye.js" %>
   <%= yield :head %>
   <%= csrf_meta_tags %>
   <% if user_signed_in? %>
     <%= javascript_tag do %>
       window.channels = <%= channels_json %>
       window.notification_objects = <%= notification_objects_json %>
+      window.faye_server_domain_name = <%= ('\'' + TestMongoid::Application.config.faye_server_domain_name + '\'').html_safe %>
+      window.faye_server_port = <%= TestMongoid::Application.config.faye_server_port %>
     <% end %>
   <% end %>
   <link rel="shortcut icon" href=<%= asset_path "logo-n4-justQ_icon_blue.png" %>>

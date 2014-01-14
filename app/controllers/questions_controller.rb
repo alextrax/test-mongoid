@@ -76,7 +76,7 @@ class QuestionsController < ApplicationController
           messages.push({:channel => '/notifications/users/' + receiver._id, :data => notification_data.to_json.html_safe})
         end
 
-        faye_uri = URI.parse("http://localhost:9292/faye")
+        faye_uri = URI.parse("http://localhost:" + TestMongoid::Application.config.faye_server_port.to_s + "/faye")
         Net::HTTP.post_form(faye_uri, :message => messages.to_json)
 
         #format.html { redirect_to @question, notice: 'Question was successfully created.' }

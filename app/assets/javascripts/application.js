@@ -74,7 +74,7 @@ $(function() {
 
   $('textarea.autoresize').autosize();
 
-  faye = new Faye.Client('http://localhost:9292/faye');
+  faye = new Faye.Client('http://' + window.faye_server_domain_name + ':' + window.faye_server_port + '/faye');
   
   subscribe_channels(window.channels);
   init_notifications();

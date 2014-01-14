@@ -64,5 +64,9 @@ module TestMongoid
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Faye Server
+    config.faye_server_domain_name = '172.16.1.102'
+    config.faye_server_port = 9292
   end
 end
