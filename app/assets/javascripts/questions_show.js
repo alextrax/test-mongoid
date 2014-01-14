@@ -30,9 +30,19 @@ $(function(){
   });
 
   $( "#follow_button" ).click(function() {
+
+    $(".btn").attr("disabled", "disabled");
+    $("#answer_content").attr("readonly", "readonly");
+
     var url = $("#new_follower").attr('action');
     $.post(url, $("#new_follower").serialize(), function(data) {
       $("#follow_button").notify("You are now following this question", {className:"success"});
+      setTimeout('self.location="/"', 1000)
+    })
+    .fail(function() {
+      $("#follow_button").notify("Failed", {className:"error"});
+      $(".btn").attr("disabled", false);
+      $("#answer_content").attr("readonly", false);
     });
   });
 
