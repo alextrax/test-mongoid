@@ -3,7 +3,7 @@
 <head>
   <title>Fast Q</title>
   <meta charset="UTF-8"><meta>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag :defaults, "http://localhost:9292/faye.js" %>
@@ -23,9 +23,7 @@
   <div class="navbar-inner">
     <div class="container" style="width:100%">
 
-      <a class="brand" href="/">
-        <img src=<%= asset_path "logo-n4-justQ_icon_blue.png" %> width="40">
-      </a>      
+           
 
       <% if user_signed_in? %>
         <ul class="nav nav-pills navbar-nav pull-right">
@@ -34,7 +32,7 @@
               <span class="glyphicon glyphicon-question-sign"></span>
               <span id="question_notifications_counter" class="badge"></span>
             </a>
-            <ul id="question_notifications_list" class="dropdown-menu " role="menu" aria-labelledby="dLabel">
+            <ul id="question_notifications_list" class="dropdown-menu " role="menu" aria-labelledby="dLabel" style="background-color: #fffffe">
               <li role="presentation" class="dropdown-header">Question Asked</li>
               <li role="presentation" class="divider"></li>
               <li role="presentation">
@@ -48,7 +46,7 @@
               <span class="glyphicon glyphicon-info-sign"></span>
               <span id="answer_notifications_counter" class="badge"></span>
             </a>
-            <ul id="answer_notifications_list" class="dropdown-menu " role="menu" aria-labelledby="dLabel">
+            <ul id="answer_notifications_list" class="dropdown-menu " role="menu" aria-labelledby="dLabel" style="background-color: #fffffe">
               <li role="presentation" class="dropdown-header">Anwser Recieved</li>
               <li role="presentation" class="divider"></li>
               <li role="presentation">
