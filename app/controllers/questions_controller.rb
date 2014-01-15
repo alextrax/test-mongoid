@@ -71,9 +71,11 @@ class QuestionsController < ApplicationController
 
         messages = []
         receivers.each do |receiver|
-          notification = receiver.question_notifications.create!(:question_url => question_path(@question), :question_description => question_description)
-          notification_data = {:url => notification_path(notification, :type => :q), :type => :q, :question_description => question_description}
-          messages.push({:channel => '/notifications/users/' + receiver._id, :data => notification_data.to_json.html_safe})
+          if receiver.group == current_user.group
+            notification = receiver.question_notifications.create!(:question_url => question_path(@question), :question_description => question_description)
+            notification_data = {:url => notification_path(notification, :type => :q), :type => :q, :question_description => question_description}
+            messages.push({:channel => '/notifications/users/' + receiver._id, :data => notification_data.to_json.html_safe})
+          end
         end
 
         faye_uri = URI.parse("http://localhost:" + TestMongoid::Application.config.faye_server_port.to_s + "/faye")
