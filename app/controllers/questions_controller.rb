@@ -67,7 +67,7 @@ class QuestionsController < ApplicationController
         #notification = receiver.question_notifications.create!(:question_url => question_path(@question))
         #notification_data = {:url => notification_path(notification, :type => :q), :type => :q}
         #message = {:channel => '/notifications/users/' + receiver._id, :data => notification_data.to_json.html_safe}
-        question_description = @question.content[0..30].gsub(/\s\w+\s*$/,'...')
+        question_description = @question.content.truncate(20, separator: ' ')
 
         messages = []
         receivers.each do |receiver|

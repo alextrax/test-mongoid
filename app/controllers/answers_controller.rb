@@ -16,7 +16,7 @@ class AnswersController < ApplicationController
 
     answer = @question.answers.create!(params[:answer])
     messages = []
-    question_description = @question.content[0..30].gsub(/\s\w+\s*$/,'...')
+    question_description = @question.content.truncate(20, separator: ' ')
     notification = @question.user.answer_notifications.create!(:question_url => question_path(@question), :question_description => question_description)
     notification_data = {:url => notification_path(notification, :type => :a), :type => :a, :question_description => question_description}
     messages.push({:channel => '/notifications/users/' + @question.user._id, :data => notification_data.to_json.html_safe})
